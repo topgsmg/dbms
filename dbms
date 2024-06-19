@@ -1,0 +1,136 @@
+1...
+
+1.Create a user and grant all permissions to the user.
+
+Connected to:
+Oracle Database 10g Enterprise Edition Release 10.2.0.3.0 - Production
+With the Partitioning, OLAP and Data Mining options
+SQL> Connect sys as sysdba;
+Enter password: **
+Connected.
+SQL> create user bitise identified by bit123;
+User created.
+SQL> GRANT CONNECT, RESOURCE TO bitise;
+Grant succeeded.
+ SQL> CREATE TABLE Employee (
+  2      EMPNO NUMBER(5),
+  3      ENAME VARCHAR2(50),
+  4      JOB VARCHAR2(50),
+  5      MANAGER_NO NUMBER(5),
+  6      SAL NUMBER(10, 2),
+  7      COMMISSION NUMBER(10, 2)
+  8  );
+
+Table created.
+SQL> GRANT SELECT, INSERT, UPDATE, DELETE ON Employee TO bitise;
+Grant succeeded.
+SQL> GRANT CREATE TABLE, CREATE SEQUENCE TO bitise;
+Grant succeeded.
+SQL> grant all privileges to bitise identified by bit123;
+Grant succeeded.
+SQL> CREATE TABLE Employee (
+  2      EMPNO NUMBER(5),
+  3      ENAME VARCHAR2(50),
+  4      JOB VARCHAR2(50),
+  5      MANAGER_NO NUMBER(5),
+  6      SAL NUMBER(10, 2),
+  7      COMMISSION NUMBER(10, 2)
+  8  );
+SQL> select privilege from dba_sys_privs
+  2  where grantee='employee'
+  3  order by 1;
+no rows selected
+SQL> commit;
+Commit complete
+SQL>Disconnect;
+2. Insert the any three records in the employee table contains attributes EMPNO,ENAME JOB, MANAGER_NO, SAL, COMMISSION and use rollback. Check the result.
+INSERT INTO Employee (EMPNO, ENAME, JOB, MANAGER_NO, SAL, COMMISSION)
+VALUES (1, 'John Doe', 'Manager', NULL, 5000, 1000);
+INSERT INTO Employee (EMPNO, ENAME, JOB, MANAGER_NO, SAL, COMMISSION)
+VALUES (2, 'Jane Smith', 'Developer', 1, 4000, NULL);
+INSERT INTO Employee (EMPNO, ENAME, JOB, MANAGER_NO, SAL, COMMISSION)
+VALUES (3, 'Alice Johnson', 'Analyst', 1, 3500, 500);
+-- Rollback the transaction
+ROLLBACK;
+SELECT * FROM Employee;
+SQL> no rows selected;
+
+3. Add primary key constraint and not null constraint to the employee table.
+ALTER TABLE Employee
+ADD CONSTRAINT pk_employee PRIMARY KEY (MANAGER_NO);
+
+Add NOT NULL constraint to ENAME, JOB, and SAL columns
+ALTER TABLE Employee
+MODIFY (ENAME VARCHAR2(50) NOT NULL,
+        JOB VARCHAR2(50) NOT NULL,
+        SAL NUMBER(10, 2) NOT NULL);
+
+4.Insert null values to the employee table and verify the result.
+
+INSERT INTO Employee24 (EMPNO, ENAME, JOB, MANAGER_NO, SAL, COMMISSION)
+VALUES (4, NULL, 'Tester', 1, NULL, NULL);
+
+INSERT INTO Employee1 (EMPNO, ENAME, JOB, MANAGER_NO, SAL, COMMISSION)
+VALUES (5, 'Jack Smith', NULL, 1, NULL, NULL);
+
+2....
+1. Creating the Employee table
+      CREATE TABLE Employee2 (
+    EMPNO INT PRIMARY KEY,
+    ENAME VARCHAR(50),
+    JOB VARCHAR(50),
+    MGR INT,
+    SAL DECIMAL(10, 2)
+);
+2. Adding a column commission to the Employee table
+ALTER TABLE Employee2
+ADD commission DECIMAL(10, 2);
+3. Inserting five records into the table
+INSERT INTO Employee2 (EMPNO, ENAME, JOB, MGR, SAL, commission)
+VALUES (101, 'John Doe', 'Manager', NULL, 50000.00, 1000.00),  (102, 'Jane Smith', 'Developer', 101, 40000.00, 800.00),    (103, 'Mike Johnson', 'Analyst', 101, 35000.00, 700.00),    (104, 'Emily Brown', 'Designer', 102, 38000.00, 750.00),    (105, 'David Lee', 'Tester', 103, 32000.00, 600.00);
+ 4. Updating the column details of job
+-- For example, changing 'Manager' to 'Project Manager'
+UPDATE Employee2
+SET JOB = 'Project Manager'
+WHERE JOB = 'Manager';
+5. Renaming the column of Employee table using ALTER command
+ALTER TABLE Employee2
+RENAME COLUMN MGR TO MANAGER_ID;
+6. Deleting the employee whose Empno is 105
+DELETE FROM Employee2
+WHERE EMPNO = 105;
+
+
+
+3........
+
+CREATE TABLE Employee3 (
+    E_id INT PRIMARY KEY,
+    E_name VARCHAR(20),
+    Age INT,
+    Salary DECIMAL(10, 2)
+);
+INSERT INTO Employee3 (E_ID, E_NAME, Age, Salary )
+VALUES (101, 'John Doe', 30, 50000.00);
+INSERT INTO Employee3 (E_ID, E_NAME, Age, Salary )
+VALUES (102, 'Jane Smith', 32, 40000.00);
+ INSERT INTO Employee3 (E_ID, E_NAME, Age, Salary )
+VALUES  (103, 'Mike Johnson', 33, 35000.00);
+   INSERT INTO Employee3 (E_ID, E_NAME, Age, Salary )
+VALUES (104, 'Emily Brown', 32, 38000.00);
+
+
+SELECT COUNT(E_name) AS TotalEmployees FROM Employee3;
+SELECT MAX(Age) AS MaxAge FROM Employee3;
+SELECT MIN(Age) AS MinAge FROM Employee3;
+
+SELECT Salary FROM Employee ORDER BY Salary ASC;
+
+SELECT Salary, COUNT(*) AS NumEmployees FROM Employee3 GROUP BY Salary;
+
+
+SELECT E_name, Age, Age + 5 AS AgeAfter5Years FROM Employee30;
+
+SELECT E_name, Salary, Salary * 0.1 AS SalaryIncrease FROM Employee3;
+
+SELECT AVG(Salary) AS AverageSalary FROM Employee3;
