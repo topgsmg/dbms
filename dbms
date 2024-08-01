@@ -29,6 +29,7 @@ END;
 /
 
 5.....
+SET SERVEROUTPUT ON;
 CREATE TABLE EMPLOYEE5
  (
  E_ID INT PRIMARY KEY,
@@ -45,7 +46,7 @@ INSERT INTO EMPLOYEE5 VALUES (4, 'Chaitali', 25,6500.00);
  E_name Employee5.E_name%TYPE;
  Age Employee5.Age%TYPE;
  Salary Employee5.Salary%TYPE;
- CURSOR employee_cursor
+ CURSOR employee_cursor IS
  SELECT E_id, E_name, Age, Salary
  FROM Employee5;
  BEGIN
@@ -61,6 +62,7 @@ END;
 /
 
 6......
+SET SERVEROUTPUT ON;
 create table O_RollCall (roll int,name varchar(10));
 create table N_RollCall (roll int,name varchar(10));
 insert into O_RollCall values(1,'bc');
